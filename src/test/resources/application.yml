@@ -1,0 +1,19 @@
+spring:
+#  datasource:
+#    url: jdbc:h2:mem:test   # h2에서 제공하는 InMemory DB URL임
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  jpa:
+#    database: h2
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        show_sql: true
+#        format_sql: true
+# 스프링 부트는 사실.. 별도의 설정이 없으면 메모리 모드로 테스트를 돌리기때문에 위에 설정이 필요가 없음
+logging:
+  level:
+    org.hibernate.SQL: debug
