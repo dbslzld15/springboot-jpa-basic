@@ -13,4 +13,14 @@ public class Book extends Item {
 
     private String author;
     private String isbn;
+
+    public static Book createBook(BookForm form) {
+        Book book = new Book();
+        book.setName(form.getName());
+        book.setAuthor(form.getAuthor());
+        book.setPrice(form.getPrice());
+        book.setStockQuantity(form.getStockQuantity());
+        book.setIsbn(form.getIsbn());
+        return book;
+    }
 }
