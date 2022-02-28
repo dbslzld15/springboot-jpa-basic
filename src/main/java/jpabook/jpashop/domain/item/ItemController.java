@@ -66,7 +66,9 @@ public class ItemController {
         book.setPrice(form.getPrice());
         book.setStockQuantity(form.getStockQuantity());
         book.setIsbn(form.getIsbn());
-        itemService.saveItem(book);
+        itemService.saveItem(book); // 이 방법은 merge를 호출하기 때문에 좋지 못한 방법임. 준영속 상태로 전체 값이 교체되기때문
+        // 영속 상태의 dirty checking을 이용해야함
+        //  itemService.updateItem();
         return "redirect:/items";
     }
 }
