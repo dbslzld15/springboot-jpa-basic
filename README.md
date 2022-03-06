@@ -1,1 +1,9 @@
-# springboot-jpa-basic
+## 상품 주문 시스템
+
+### 프로젝트 소개
+|구분|내용| 
+|------|---|
+|한줄 소개|인프런 JPA 실전 활용편을 들으며 따라한 상품 주문 시스템입니다. |
+|주요 기술| Java, Spring Boot, JPA, H2 DataBase, Thymeleaf|
+|팀원 구성|개인 프로젝트|
+
