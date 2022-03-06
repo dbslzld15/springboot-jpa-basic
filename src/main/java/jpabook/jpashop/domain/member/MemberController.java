@@ -1,6 +1,6 @@
 package jpabook.jpashop.domain.member;
 
-import jpabook.jpashop.domain.Address;
+import jpabook.jpashop.domain.address.Address;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
