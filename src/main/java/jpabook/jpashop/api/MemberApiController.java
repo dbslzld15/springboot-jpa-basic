@@ -1,6 +1,8 @@
-package jpabook.jpashop.domain.member;
+package jpabook.jpashop.api;
 
 import jpabook.jpashop.domain.address.Address;
+import jpabook.jpashop.domain.member.Member;
+import jpabook.jpashop.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
