@@ -1,14 +1,16 @@
 package jpabook.jpashop.domain.order;
 
-import jpabook.jpashop.domain.address.Address;
+import jpabook.jpashop.domain.order.Order;
+import jpabook.jpashop.domain.order.OrderRepository;
+import jpabook.jpashop.domain.order.OrderSearch;
+import jpabook.jpashop.domain.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.domain.order.simplequery.OrderSimpleQueryRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class OrderSimpleApiController {
 
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     @GetMapping("/api/v1/simple-orders")
     public List<Order> ordersV1() { //양방향 연관관계가 걸린곳은 무한루프를 방지하기 위해 한곳은 @JsonIgnore을 사용
@@ -38,8 +41,8 @@ public class OrderSimpleApiController {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
         // N+1 문제가 발생, Order 쿼리 1개를 위해 회원 N + 배송 N 개의 추가 쿼리 발생
-       List<SimpleOrderDto> collect = orders.stream()
-                .map(o -> new SimpleOrderDto(o))
+       List<OrderSimpleQueryDto> collect = orders.stream()
+                .map(o -> new OrderSimpleQueryDto(o))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -47,27 +50,16 @@ public class OrderSimpleApiController {
     @GetMapping("/api/v3/simple-orders")
     public Result ordersV3() {
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
-        List<SimpleOrderDto> collect = orders.stream()
-                .map(o -> new SimpleOrderDto(o))
+        List<OrderSimpleQueryDto> collect = orders.stream()
+                .map(o -> new OrderSimpleQueryDto(o))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
 
-    @Data
-    static class SimpleOrderDto {
-        private Long orderId;
-        private String name;
-        private LocalDateTime orderDate;
-        private OrderStatus orderStatus;
-        private Address address;
-
-        public SimpleOrderDto(Order order) {
-            this.orderId = order.getId();
-            this.name = order.getMember().getName();
-            this.orderDate = order.getOrderDate();
-            this.orderStatus = order.getStatus();
-            this.address = order.getDelivery().getAddress();
-        }
+    @GetMapping("/api/v4/simple-orders")
+    public Result ordersV4() {
+        List<OrderSimpleQueryDto> orderDtos = orderSimpleQueryRepository.findOrderDtos();
+        return new Result(orderDtos.size(), orderDtos);
     }
 
     @Data
